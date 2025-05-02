@@ -10,7 +10,7 @@ const About = () => {
           <motion.img
             src="https://images.unsplash.com/photo-1608319984133-1d0e5e20988e?w=800"
             alt="Car Service"
-            style={{ width: "100%", borderRadius: "12px", height: "600px" }}
+            style={{ width: "100%", borderRadius: "12px", height: "500px" }}
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}

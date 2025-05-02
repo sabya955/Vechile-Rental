@@ -29,6 +29,8 @@ router.post("/", verifyToken, async (req, res) => {
 router.get("/user/bookings", verifyToken, async (req, res) => {
   try {
     const email = req.user.email; // get the logged-in user's email
+    console.log(email);
+    
     const result = await productPool.query(
 `SELECT b.*, c.name AS car_name 
        FROM bookings b 

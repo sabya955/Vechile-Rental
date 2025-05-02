@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import { api } from '../../commonapi'; 
 import '../navbar.css';
 
@@ -8,10 +9,13 @@ const NavLink = [
     { id: "3", title: "BIKES", link: "/Bike" },
     { id: "4", title: "ABOUT", link: "/About" },
     { id: "5", title: "BOOKING", link: "/cancelBook" },
+    { id: "6", title: "CONTACT", link: "/Contact" },
+
 
 ];
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [user, setUser] = useState(null);
 
@@ -26,6 +30,7 @@ const Navbar = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         setUser(null);
+        navigate("/");
     };
 
     return (
@@ -47,7 +52,7 @@ const Navbar = () => {
                             <button className="logoutbtn" onClick={handleLogout}>Logout</button>
                         </>
                     ) : (
-                        <button className="signupbtn" onClick={() => setShowModal(true)}>Signup/Login</button>
+                        <button className="signupbtn1" onClick={() => setShowModal(true)}>Signup/Login</button>
                     )}
                 </div>
             </nav>
@@ -125,7 +130,7 @@ const LoginSignupForm = ({ setUser, closeModal }) => {
                 <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange}  />
             )}
 
-            <button type="submit">{isSignup ? "Signup" : "Login"}</button>
+            <button  type="submit">{isSignup ? "Signup" : "Login"}</button>
             <p onClick={() => setIsSignup(!isSignup)} style={{ cursor: "pointer" }}>
                 {isSignup ? "Already have an account? Login" : "Don't have an account? Signup"}
             </p>

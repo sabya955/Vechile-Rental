@@ -5,30 +5,20 @@ const productPool = require("./db");
 require("dotenv").config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+
+// Signup Route
 router.post("/signup", async (req, res) => {
   try {
-    const {
-      fullName,
-      email,
-      phone,
-      driving_licence,
-      password,
-      confirmPassword,
-    } = req.body;
+    const { fullName, email, phone, driving_licence, password, confirmPassword } = req.body;
 
-    if (
-      !fullName ||
-      !email ||
-      !phone ||
-      !driving_licence ||
-      !password ||
-      !confirmPassword
-    ) {
+    if (!fullName || !email || !phone || !driving_licence || !password || !confirmPassword) {
       return res.status(400).json({ message: "All fields are required" });
     }
+
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const existingUser = await productPool.query(
@@ -45,21 +35,23 @@ router.post("/signup", async (req, res) => {
       [fullName, email, phone, driving_licence, hashedPassword, "customer"]
     );
 
-    const token = jwt.sign({ userId: result.rows[0].id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: result.rows[0].id, email: email, role: "customer" },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
-    return res
-      .status(201)
-      .json({ token, message: "User registered successfully" });
+    return res.status(201).json({
+      token,
+      message: "User registered successfully",
+    });
   } catch (error) {
     console.error("Signup Error:", error);
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
 
+// Login Route
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -80,9 +72,11 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, role: user.role },  // Include email and role in the token
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
     return res.status(200).json({
       message: "Login successful",
@@ -98,9 +92,7 @@ router.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Login Error:", error);
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
 
