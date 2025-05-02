@@ -58,11 +58,11 @@
 }
 
 /* Signup/Login Button */
-.signupbtn {
+.signupbtn1 {
   background: linear-gradient(90deg, #ff6347, #ff4500);
   color: white;
   border: none;
-  padding: 5px 15px;
+  padding: 8px 15px;
   font-size: 12px;
   font-weight: bold;
   border-radius: 20px;
@@ -74,7 +74,7 @@
   justify-content: center;
 }
 
-.signupbtn:hover {
+.signupbtn1:hover {
   background: linear-gradient(90deg, #ff4500, #ff6347);
   transform: scale(1.05);
 }
@@ -84,7 +84,7 @@
   background: #333;
   color: white;
   border: none;
-  padding: 5px 15px;
+  padding: 8px 15px;
   font-size: 12px;
   font-weight: bold;
   border-radius: 20px;

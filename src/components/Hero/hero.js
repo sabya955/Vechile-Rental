@@ -34,6 +34,7 @@ const Hero = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
         onClick={handleClick}
+        className="btn"
       >
         Get Started
       </motion.button>
